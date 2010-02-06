@@ -1,6 +1,66 @@
 #Alternate titles: friendlyR
 
-cat("friendlyR enhancements loaded -- beta v1-2010 01/27/10\n");
+AutoGCU=function(repos="http://www.georgian.edu/downloads"){
+    cat("Running this function sets up R so that it will automatically load gcuR when it starts\n");
+    cat("When R starts it will look for a newer version of gcuR in the repository\n");
+    line2=sprintf("%s and, if there is one, it will load and install it.\n",repos);
+    cat(line2);
+    if (file.exists(".RProfile"))
+    {
+       cat("Warning: running this function will overwrite an existing set of startup instructions\n");
+    }
+    check=readline("Are you sure you want to continue (y/n) ");
+    if (check %in% c("y","Y","yes","Yes","YES")) {
+       if (file.exists(".RProfile")) file.remove(".RProfile");
+       sink(".RProfile");
+       cat("require(utils);\n");
+       oldtext=sprintf('xxx=old.packages(repos="%s");\n',repos);
+       cat(oldtext);
+       updatetext=sprintf('update.packages(repos="%s",ask=F,oldPkgs=xxx);\n',repos);
+       cat(updatetext);
+#    cat('update.packages(repos="http://www.georgian.edu/downloads",ask=F,oldPkgs=xxx);\n');
+       cat('rm(xxx);\n');
+       cat('library(gcuR)\n');
+       cat('cat("gcuR enhancements loaded\\n")');
+       sink();
+    }
+    else
+      cat("*** Further Processing Abandoned As Per Request ***\n");
+}
+
+# Want a function that kills the AutoGCU Rprofile
+# Might want to go back and change behavior of AutoGCU
+# So that we handle Rprofile differently?
+#CancelAutoGCU=function()
+#{
+#}
+
+#ClearCurrentWS=function()
+# planned function to clear the main Workspace -- doesn't actually work
+#{
+#    check=readline("Are you sure you want to clear all data from the active workspace? (y/n) ");
+#    if (check %in% c("y","Y","yes","Yes","YES")) {
+#        rm(list=ls(),pos=sys.parent())
+#    }
+#    else
+#        cat("*** Clear Operation Cancelled ***\n");
+#}
+
+DropSavedWS=function()
+{
+    if (!file.exists(".RData"))
+    {
+         cat("*** No Saved Default Workspace to Drop ***\n");
+    }
+    else
+    {
+         check=readline("Are you sure you want to drop the saved default workspace (y/n) ");
+         if (check %in% c("y","Y","yes","Yes","YES")) file.remove(".RData");
+         return(invisible(NULL));
+    }
+}
+
+GCUVer=function(){ cat("1.3\n")}
 
 defsep="\t"
 
@@ -803,6 +863,34 @@ Sd=function(x,na.rm,...)
   sd(x,na.rm,...);
 }
 
+# QTable creates a frequency table of a quantitative variable
+# In a manner consistent with hist
+
+QTable=function(x,type="freq",...){
+   z=hist(x,plot=F,...);
+   counts=z$counts;
+   if (type=="rel")
+   {
+      counts=z$counts/sum(z$counts);
+   }
+   if (type=="perc")
+   {
+      counts=z$counts/sum(z$counts);
+      counts=counts*100;       
+   }
+   breaks=z$breaks;
+   n=length(z$counts);
+   names=c();
+   for (i in 1:n)
+   {
+      names[i]=sprintf("%g-%g",breaks[i],breaks[i+1]);
+   }
+   names(counts)=names;
+   counts=as.table(counts);
+   counts;
+}
+
+
 # From a student usability standpoint the defaults in 
 # barplot are all wrong
 # issues: 1) for graphs of two way tables 
@@ -871,14 +959,19 @@ Barplot=function(height,freq=T,order=NULL,beside=T,...)
           
 }  
 
-Dotplot=function(x,y=NULL,xlabs=NULL,xlim=NULL,col=NULL,xlab=NULL,...){
+Dotplot=function(x,y=NULL,xlim=NULL,col=NULL,xlab,dlab,...){
 if(missing(x)){cat("Error: no first variable specifed\n");return(invisible(0))}; 
 if(!is.numeric(x)){cat("Error: first variable must be numeric\n");return(invisible(0));};
+if(missing(xlab)&!missing(dlab))xlab=dlab;
+if(missing(xlab))
+{
+   if(is.null(y)) xlab=substitute(x) else xlab=c(substitute(x),substitute(y))
+}
 if(is.null(y)){p1=xlim;p2=col;
-if(is.null(p1)&is.null(p2))stripchart(x,at=0,pch=19,method="stack",frame.plot=F,xlab,...);
-if(is.null(p1)&!is.null(p2))stripchart(x,at=0,pch=19,method="stack",frame.plot=F,col=p2,xlab,...);
-if(!is.null(p1)&is.null(p2))stripchart(x,at=0,pch=19,method="stack",frame.plot=F,xlim=p1,xlab,...);
-if(!is.null(p1)&!is.null(p2))stripchart(x,at=0,pch=19,method="stack",frame.plot=F,xlim=p1,col=p2,xlab,...);
+if(is.null(p1)&is.null(p2))stripchart(x,at=0,pch=19,method="stack",frame.plot=F,xlab=xlab,...);
+if(is.null(p1)&!is.null(p2))stripchart(x,at=0,pch=19,method="stack",frame.plot=F,col=p2,xlab=xlab,...);
+if(!is.null(p1)&is.null(p2))stripchart(x,at=0,pch=19,method="stack",frame.plot=F,xlim=p1,xlab=xlab,...);
+if(!is.null(p1)&!is.null(p2))stripchart(x,at=0,pch=19,method="stack",frame.plot=F,xlim=p1,col=p2,xlab=xlab,...);
 };
 if(!is.null(y)) {
 if(!is.numeric(y)){cat("Error: second variable must be numeric\n");return(invisble(0));};
