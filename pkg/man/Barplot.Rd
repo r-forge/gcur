@@ -5,7 +5,8 @@
 Barplot
 }
 \description{
-Draws a bar graph
+Draws a bar graph with heights supplied as either a vector, matrix, table or two column data frame with bar labels in the first column and bar heights in the second column
+If height is a two-dimensional matrix bars are printed in groups by row (note that Barplot handles this differently from the standard R barplot) and by default the bar groups are printed side by side and not in a single tower.
 }
 \usage{
 Barplot(height, freq = T, order = NULL, beside = T, ...)
@@ -13,20 +14,23 @@ Barplot(height, freq = T, order = NULL, beside = T, ...)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{height}{
-  height is either a vector, matrix, table, or two column dataframe with numeric values in the second column
-  if height is a vector, 1-dimensional table, or two-column dataframe, 
+  height is either a vector, matrix, table, or two column dataframe with bar labels in the first column and numeric values in the second column
+  if height is a vector or 1-dimensional table bar heights are taken from the names attribute
+  if height is a two-dimensional matrix bars are grouped by row (note this is different from barplot)
 }
   \item{freq}{
-%%     ~~Describe \code{freq} here~~
+  if T (default) scale heights to actual frequencies, if F scale heights to relative frequencies
 }
   \item{order}{
-%%     ~~Describe \code{order} here~~
+  only for single dimensional tables
+  if "A", "D" order bars in ascending/descending order of height
+  if "a", "d" order bars in ascending/descending order of alpha label
 }
   \item{beside}{
-%%     ~~Describe \code{beside} here~~
+  if T (default) grouped bars are displayed alongside each other, if F grouped bars are stacked
 }
   \item{\dots}{
-%%     ~~Describe \code{\dots} here~~
+  see barplot help for remaining parameters
 }
 }
 \details{
@@ -43,7 +47,7 @@ Barplot(height, freq = T, order = NULL, beside = T, ...)
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+Joel Pitt
 }
 \note{
 %%  ~~further notes~~

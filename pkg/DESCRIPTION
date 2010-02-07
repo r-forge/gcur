@@ -1,10 +1,11 @@
-Package: gcuR
+PPackage: gcuR
 Type: Package
-Title: What the package does (short line)
-Version: 1.0
-Date: 2010-01-29
+Title: Alternate versions of elementary statistical functions
+Version: 1.3
+Date: 2010-02-07
 Author: Joel Pitt
 Maintainer: Joel Pitt <pittj@georgian.edu>
 Description: This project provides alternative versions of certain elementary R functions as well as some newer functions all of which are intended to ease initial student use of R.
 License: LGPL
 LazyLoad: yes
+

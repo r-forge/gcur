@@ -1,31 +1,28 @@
-\name{friendlyR-package}
+\name{gcuR-package}
 \alias{friendlyR-package}
 \alias{friendlyR}
 \docType{package}
 \title{
-WhatThisPackageDoes
-~~ package title ~~
+Alternate versions of elementary statistical functions
 }
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
+This project provides alternative versions of certain elementary R functions as well as some newer functions all of which are intended to ease initial student use of R.
 }
 \details{
 \tabular{ll}{
-Package: \tab friendlyR\cr
+Package: \tab gcuR\cr
 Type: \tab Package\cr
 Version: \tab 1.0\cr
-Date: \tab 2010-01-29\cr
-License: \tab What license is it under?\cr
+Date: \tab 2010-02-04\cr
+License: \tab LGPL?\cr
 LazyLoad: \tab yes\cr
 }
 ~~ An overview of how to use the package, including the most important ~~
 ~~ functions ~~
 }
 \author{
-Who wrote it
-
-Maintainer: Who to complain to <yourfault@somewhere.net>
+Joel Pitt
+Maintainer: pittj@georgian.edu>
 ~~ The author and/or maintainer of the package ~~
 }
 \references{

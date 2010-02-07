@@ -5,33 +5,28 @@
 Dotplot
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Histogram like charts for one or two quantitative variables in a small data set. Stacked dots (one per each data point)
+are used in place of bars to indicate the frequency of with which each data value appears in the set. 
 }
 \usage{
-Dotplot(x, y = NULL, xlabs = NULL, xlim = NULL, col = NULL, xlab = NULL, ...)
+Dotplot(x, y = NULL,  xlim = NULL, col = NULL, xlab, dlab,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-%%     ~~Describe \code{x} here~~
+  First or only quantitative variable for dotplot
 }
   \item{y}{
-%%     ~~Describe \code{y} here~~
-}
-  \item{xlabs}{
-%%     ~~Describe \code{xlabs} here~~
+  If specified second quantitative variable for dotplot, both plots show on same page
 }
   \item{xlim}{
-%%     ~~Describe \code{xlim} here~~
+  Vector of low, high values for x-axis
 }
   \item{col}{
-%%     ~~Describe \code{col} here~~
+  Color of dots for single variable, vector of dot colors for two variables
 }
   \item{xlab}{
-%%     ~~Describe \code{xlab} here~~
-}
-  \item{\dots}{
-%%     ~~Describe \code{\dots} here~~
+  Label or vector of labels for the x-axe(s)
 }
 }
 \details{
@@ -48,7 +43,7 @@ Dotplot(x, y = NULL, xlabs = NULL, xlim = NULL, col = NULL, xlab = NULL, ...)
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+Joel Pitt
 }
 \note{
 %%  ~~further notes~~
@@ -60,65 +55,6 @@ Dotplot(x, y = NULL, xlabs = NULL, xlim = NULL, col = NULL, xlab = NULL, ...)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (x, y = NULL, xlabs = NULL, xlim = NULL, col = NULL, 
-    xlab = NULL, ...) 
-{
-    if (missing(x)) {
-        cat("Error: no first variable specifed\n")
-        return(invisible(0))
-    }
-    if (!is.numeric(x)) {
-        cat("Error: first variable must be numeric\n")
-        return(invisible(0))
-    }
-    if (is.null(y)) {
-        p1 = xlim
-        p2 = col
-        if (is.null(p1) & is.null(p2)) 
-            stripchart(x, at = 0, pch = 19, method = "stack", 
-                frame.plot = F, xlab, ...)
-        if (is.null(p1) & !is.null(p2)) 
-            stripchart(x, at = 0, pch = 19, method = "stack", 
-                frame.plot = F, col = p2, xlab, ...)
-        if (!is.null(p1) & is.null(p2)) 
-            stripchart(x, at = 0, pch = 19, method = "stack", 
-                frame.plot = F, xlim = p1, xlab, ...)
-        if (!is.null(p1) & !is.null(p2)) 
-            stripchart(x, at = 0, pch = 19, method = "stack", 
-                frame.plot = F, xlim = p1, col = p2, xlab, ...)
-    }
-    if (!is.null(y)) {
-        if (!is.numeric(y)) {
-            cat("Error: second variable must be numeric\n")
-            return(invisble(0))
-        }
-        if (is.null(xlim)) {
-            xlim = c(min(c(x, y), na.rm = T), max(c(x, y), na.rm = T))
-        }
-        p1 = xlim
-        if (is.null(col)) {
-            col = c("Green", "Blue")
-        }
-        p2 = col
-        p3 = xlab
-        if (!is.null(p3)) {
-            if (is.na(p3[2])) 
-                p3[2] = ""
-        }
-        oldpar = par(no.readonly = T)
-        par(mfrow = c(2, 1))
-        stripchart(x, method = "stack", xlim = p1, col = p2[1], 
-            at = 0, pch = 19, frame.plot = F, xlab = p3[1], ...)
-        stripchart(y, method = "stack", xlim = p1, col = p2[2], 
-            at = 0, pch = 19, frame.plot = F, xlab = p3[2], ...)
-        par(oldpar)
-    }
-  }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
